@@ -1,0 +1,7 @@
+{
+	"livePreview.portNumber": 8000,
+	"livePreview.openPreviewTarget": "Embedded Preview",
+	"livePreview.debugOnExternalPreview": false,
+	"livePreview.autoRefreshPreview": "On All Changes in Editor",
+	"livePreview.defaultPreviewPath": "/calendar.html"
+}

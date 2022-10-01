@@ -1,0 +1,13 @@
+{
+	"code": 0,
+	"holiday": {
+		"12-31": {
+			"holiday": false,
+			"after": false,
+			"wage": 1,
+			"name": "元旦前补班",
+			"target": "元旦",
+			"date": "2022-10-09"
+		}
+	}
+}
