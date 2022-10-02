@@ -1,6 +1,7 @@
 import path from 'path';
 import Log from './lib/log.js'
 import { readJSON } from './lib/jsonfile.js'
+import { isEmptyObj } from './lib/utils.js';
 
 /** @type {FestivalDefinations} */
 const HOLIDAYS = {
@@ -33,17 +34,24 @@ const HOLIDAYS = {
 	'重阳':   ['九月', '初九'],
 };
 
-const loadHolidayData = (() => {
-    /** @type {Map<year, Object>} */
+const INACCURATE_VACATION = Symbol('');
+const loadVacationData = (() => {
+    /** @type {Map<number, Record<string, Holiday>>} */
     const cache = new Map();
     /**
      * @param {number} year
      */
     return async function (year) {
+		if (cache.has(year)) {
+			return cache.get(year);
+		}
         let json = await readJSON(path.join('dataset/holiday/', `${year}.json`));
-		if (json.code !== 0) throw Error(`Holiday json of ${year} is invalid`)
+		if (typeof json?.code !== 'number' || typeof json?.holiday !== 'object' || isEmptyObj(json.holiday))
+			throw Error(`Holiday json of ${year} is invalid`)
 		/** @type {Record<string, Holiday>} */
 		let holidays = json.holiday;
+		if (json.code !== 0) holidays[INACCURATE_VACATION] = true;
+		cache.set(year, holidays);
 		return holidays;
     }
 }) ()
@@ -101,7 +109,11 @@ export async function applyHoliday(holidayDefs = HOLIDAYS) {
 	}
 	this.hasHolidayData = true;
 	try {
-		const holidays = await loadHolidayData(this.Y);
+		const holidays = await loadVacationData(this.Y);
+		if (holidays?.[INACCURATE_VACATION]) {
+			this.hasHolidayData = false;
+			Log.warn(`Vacation data of ${this.Y} might be inaccurate!`)
+		}
 		// date: "MM-DD"
 		for (const date of Object.keys(holidays)) {
 			let [M, D] = date.split('-').map(x => parseInt(x));

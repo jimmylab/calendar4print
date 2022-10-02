@@ -99,6 +99,12 @@ main.root > section {
     --date-border: 1px;
     font-size: min(calc(var(--section-width) / 16), calc(var(--section-height) / 16))
 }
+@media only screen and (min-aspect-ratio: 7/8) {
+    :root {
+        --section-height: 100vh;
+        --columns-per-page: 1;
+    }
+}
 @media print {
     :root {
         --date-border: 0.25mm;

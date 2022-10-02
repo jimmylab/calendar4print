@@ -26,6 +26,7 @@ let scrollListener;
  */
 function scrollSnap(speed = 500, gapTime = 50) {
 	const pageElems = $('section', root);
+    const docEl = document.documentElement;
     const pages = pageElems.length;
 	if (pages <= 1) return;
 	const firstPage = pageElems[0];
@@ -35,30 +36,35 @@ function scrollSnap(speed = 500, gapTime = 50) {
     if (typeof scrollListener === 'function') {
         removeEventListener('wheel', scrollListener);
     }
-
-    root.addEventListener('wheel', function F(ev) {
-        scrollListener = F;
+    /**
+     * @param {WheelEvent} ev
+     */
+    function onWheel(ev) {
         const direction = Math.sign(ev.deltaY);
         if (!mutex) {
             const fromPage = current;
             const turnToPage = fromPage + direction;
-            if (turnToPage < 0 ||
-                turnToPage >= pages ||
-                (direction > 0 && lastPage.offsetTop - lastPage.offsetHeight <= 1)
-            ) return;
+            if (turnToPage < 0 || !direction) return;
+            if (direction > 0) {
+                const bottomOff = parseInt(
+                    getComputedStyle(lastPage).getPropertyValue('--columns-per-page')
+                );
+                if (turnToPage > (pages - bottomOff)) return;
+            }
             current = turnToPage;
             mutex = true;
 
 			animateSimple(firstPage,
 			function(now, duration) {
 				let t = now / duration;
-				// this.style.marginTop = `calc(-${(1-t)*fromPage + t*turnToPage} * var(--section-height))`;
                 this.style.setProperty('--scroll-ratio', (1-t)*fromPage + t*turnToPage)
 			}, speed)
             .then(untilTimeout(gapTime))
             .then(() => { mutex = false })
         }
-    }, {passive: true});
+    }
+    scrollListener = onWheel;
+    root.addEventListener('wheel', onWheel, {passive: true});
 }
 
 

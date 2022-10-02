@@ -180,8 +180,8 @@ else whenLoaded(() =>
     let data = await req.json();
     window.dispatchEvent(new CustomEvent('calendarload', {detail: data}))
     if (!data.hasHolidayData) {
-        console.warn(`暂无${data.Y}年休假数据`)
-        showPrompt(`暂无${data.Y}年休假数据`)
+        console.warn(`暂无${data.Y}年准确休假数据`)
+        showPrompt(`暂无${data.Y}年准确休假数据`)
     }
 }
 window.addEventListener('yearchange', ev => applyYearData(ev.detail));
