@@ -272,26 +272,20 @@
 			"date": "2022-10-08"
 		},
 		"10-09": {
-			"holiday": false,
-			"after": true,
-			"wage": 1,
-			"name": "国庆节后补班",
-			"target": "国庆节",
-			"date": "2022-10-09"
-		},
-		"12-30": {
-			"holiday": false,
-			"after": false,
-			"wage": 2,
-			"name": "元旦前补班",
-			"target": "元旦",
-			"date": "2022-12-30"
-		},
-		"12-31": {
-			"holiday": true,
-			"name": "元旦",
-			"wage": 2,
-			"date": "2022-12-31"
-		}
+            "holiday": false,
+            "after": true,
+            "wage": 1,
+            "name": "国庆节后补班",
+            "target": "国庆节",
+            "date": "2022-10-09",
+            "rest": 1
+        },
+        "12-31": {
+            "holiday": true,
+            "name": "元旦",
+            "wage": 2,
+            "date": "2022-12-31",
+            "rest": 23
+        }
 	}
 }

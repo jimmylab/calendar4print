@@ -1,5 +1,3 @@
-/// <reference types="node" />
-
 import http from 'http';
 import https from 'https';
 
@@ -11,7 +9,7 @@ type Anything = number | string | object | boolean | bigint | symbol | null;
  */
 export interface Request extends http.IncomingMessage {
 	parseRequest(req: http.IncomingMessage): void;
-	private parsedReq: {
+	parsedReq: {
 		query?: URLSearchParams;
 		pathname?: string;
 		search?: string;
@@ -35,7 +33,7 @@ export interface Response extends http.ServerResponse {
 	html(s: string, charset?: string): this;
 	send(body: Buffer | string | object): this;
 	header(field: string, value: string): this;
-	redirect(url: string, code : number = 302): this;
+	redirect(url: string, code : number): this;
 }
 
 export interface NextFunction {
@@ -62,7 +60,7 @@ export type ErrorHandler = (
 type RoutePath = string | RegExp;
 
 export declare class MyServer {
-	constructor(protocol: typeof http, options: http.ServerOptions) : MyServer;
+	constructor(protocol: typeof http, options: http.ServerOptions);
 	public use(handler: NormalHandler): this;
 	public usePath(route: RoutePath, handler: NormalHandler): this;
 	public catch(handler: ErrorHandler): this;

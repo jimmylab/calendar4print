@@ -5,7 +5,6 @@
 }
 body {
     /* scroll-behavior: smooth; */
-    font-family: 'Source Han Sans', '思源黑体 CN', 'Noto Sans', 'Noto Sans CJK SC', "WenQuanYi Micro Hei", -apple-system, BlinkMacSystemFont, system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
 }
 .root::-webkit-scrollbar {
     display: none;
@@ -15,6 +14,8 @@ body {
 /* Base styles */
 .root {
     /* scroll-snap-type: y mandatory; */
+    font-family: 'LXGW WenKai';
+    font-family: 'Source Han Sans', '思源黑体 CN', 'Noto Sans', 'Noto Sans CJK SC', "WenQuanYi Micro Hei", -apple-system, BlinkMacSystemFont, system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
     overflow: hidden;
     height: 100vh;
 }
@@ -99,7 +100,7 @@ main.root > section {
     --date-border: 1px;
     font-size: min(calc(var(--section-width) / 16), calc(var(--section-height) / 16))
 }
-@media only screen and (min-aspect-ratio: 7/8) {
+@media only screen and (min-aspect-ratio: 7/8), print and (orientation: landscape) {
     :root {
         --section-height: 100vh;
         --columns-per-page: 1;
@@ -198,6 +199,33 @@ h1.month-name {
     right: calc(51 / 210 * 100%);
 }
 @media print {
+    .punch-holes {
+        --pitch-row: var(100 / 210 * 100%)
+    }
+    /*
+    TODO: count hole border
+    TODO: easy switch to cirle hole
+    size  size          pitch-row
+    7'    180*150       86
+    8'    210*170 (A5)  100
+    8'P   150*23        86
+    10'   260*220       ?
+    12'   297*210       ?
+
+    Circle holes=4.5
+    size  size          pitch-row
+    7'    180*150       93
+    8'    210*170 (A5)  118.5
+    8'P   150*23        76.2
+    10'   260*220       ?
+    12'   297*210       ?
+
+    background: url(data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 100 100'><line x1='0' y1='0' x2='100' y2='100' stroke='black' vector-effect='non-scaling-stroke'/><line x1='0' y1='100' x2='100' y2='0' stroke='black' vector-effect='non-scaling-stroke'/></svg>);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% 100%, auto;
+    border-radius: 100%;
+    */
     .punch-holes::before, .punch-holes::after {
         /* 8mm*3mm */
         border-width: 0.25mm;
